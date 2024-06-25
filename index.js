@@ -3,30 +3,30 @@ const i18n = require('i18next');
 const sprintf = require('i18next-sprintf-postprocessor');
 
 const languageStrings = {  
-    en: {
+     en: {
         translation: {
             WELCOME_MESSAGE: 'Welcome to Dey temperature converter',
-            HELLO_MESSAGE: 'Hello World!',
+            HELLO_MESSAGE: 'Hello World!,How can I help you today?',
             HELP_MESSAGE: 'You can say hello to me! How can I help?',
             GOODBYE_MESSAGE: 'Goodbye!',
             REFLECTOR_MESSAGE: 'You just triggered %s',
             FALLBACK_MESSAGE: 'Sorry, I don\'t know about that. Please try again.',
             ERROR_MESSAGE: 'Sorry, there was an error. Please try again.',
-            CONVERT_F_TO_C_MESSAGE: 'Dey The temperature in Celsius is %.2f degrees.',
-            CONVERT_C_TO_F_MESSAGE: 'Dey The temperature in Fahrenheit is %.2f degrees.'
+            CONVERT_F_TO_C_MESSAGE: 'Dey %d Fahrenheit is %.2f degrees Celsius.',
+            CONVERT_C_TO_F_MESSAGE: 'Dey %d Celsius is %.2f degrees Fahrenheit.'
         }
-    },  
-    es: {
+    },
+   es: {
         translation: {
             WELCOME_MESSAGE: 'Bienvenido a conversor de temperatura Dey',
-            HELLO_MESSAGE: '¡Hola Mundo!',
+            HELLO_MESSAGE: '¡Hola Mundo!,¿Cómo puedo ayudarte hoy?',
             HELP_MESSAGE: 'Puedes decirme hola. ¿Cómo te puedo ayudar?',
             GOODBYE_MESSAGE: '¡Adiós!',
             REFLECTOR_MESSAGE: 'Acabas de activar %s',
             FALLBACK_MESSAGE: 'Lo siento, no sé nada sobre eso. Por favor inténtalo otra vez.',
             ERROR_MESSAGE: 'Lo siento, ha habido un problema. Por favor inténtalo otra vez.',
-            CONVERT_F_TO_C_MESSAGE: 'Dey La temperatura en Celsius es %.2f grados.',
-            CONVERT_C_TO_F_MESSAGE: 'Dey La temperatura en Fahrenheit es %.2f grados.'
+            CONVERT_F_TO_C_MESSAGE: 'Dey %d grados Fahrenheit es %.2f grados Celsius.',
+            CONVERT_C_TO_F_MESSAGE: 'Dey %d grados Celsius es %.2f grados Fahrenheit.'
         }
     }
 };
@@ -61,7 +61,6 @@ const HelloWorldIntentHandler = {
             .getResponse();
     }
 };
-
 const ConvertCToFIntentHandler = {
     canHandle(handlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
@@ -71,7 +70,7 @@ const ConvertCToFIntentHandler = {
         const requestAttributes = handlerInput.attributesManager.getRequestAttributes();
         const temperatureCelsius = parseFloat(handlerInput.requestEnvelope.request.intent.slots.temperature.value);
         const temperatureFahrenheit = (temperatureCelsius * 9/5) + 32;
-        const speakOutput = requestAttributes.t('CONVERT_C_TO_F_MESSAGE', temperatureFahrenheit);
+        const speakOutput = requestAttributes.t('CONVERT_C_TO_F_MESSAGE', temperatureCelsius, temperatureFahrenheit);
 
         return handlerInput.responseBuilder
             .speak(speakOutput)
@@ -89,7 +88,7 @@ const ConvertFToCIntentHandler = {
         const requestAttributes = handlerInput.attributesManager.getRequestAttributes();
         const temperatureFahrenheit = parseFloat(handlerInput.requestEnvelope.request.intent.slots.temperature.value);
         const temperatureCelsius = (temperatureFahrenheit - 32) * 5/9;
-        const speakOutput = requestAttributes.t('CONVERT_F_TO_C_MESSAGE', temperatureCelsius);
+        const speakOutput = requestAttributes.t('CONVERT_F_TO_C_MESSAGE', temperatureFahrenheit, temperatureCelsius);
 
         return handlerInput.responseBuilder
             .speak(speakOutput)
